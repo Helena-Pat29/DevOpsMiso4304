@@ -48,3 +48,12 @@ def bannedEmail_create():
   
     else:
         raise InvalidMissingData
+
+#Revisar este endpoint /blacklists/<string:email>
+@blacklist_blueprint.route('/blacklist/<email>', methods =['GET'])
+def checkbannedEmail(email):
+    banned_email=BannedEmail.query.filter_by(email=str(email)).first()
+    if banned_email is None:
+        return jsonify(EmailinBacklist='FALSE', blocked_reason='N/A'), 201
+    
+    return jsonify(EmailinBacklist='TRUE', blocked_reason=str(banned_email.blocked_reason)),201
