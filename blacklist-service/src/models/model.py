@@ -11,8 +11,6 @@ import enum
 db= SQLAlchemy()
 
 class BannedEmail (db.Model):
-    #id = db.Column(db.String, primary_key=True, default=str(uuid.uuid4()))
-    #id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     id = db.Column(db.Integer, primary_key=True)
     email=db.Column(db.String(120),unique=True, nullable=False)
     app_uuid =db.Column(db.String(120))
