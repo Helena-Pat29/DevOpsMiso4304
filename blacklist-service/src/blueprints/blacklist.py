@@ -3,12 +3,29 @@ import os
 import requests
 from ..models.model import db, BannedEmail
 from ..errors.errors import InvalidMissingData
+from ..errors.errors import TokenError
+from ..errors.errors import MissingToken
+from ..errors.errors import IncorrectToken
 from ..commands.bannedemail_create import BannedEmailCreate
 from datetime import datetime
 
 import socket
 
 blacklist_blueprint = Blueprint('backlist', __name__)
+
+def validate_token():
+    if 'Authorization' in request.headers:
+        token = request.headers['Authorization']
+        if not token.startswith('Bearer'):
+            raise TokenError
+        else:
+            token_str=(token[7:])
+            if token_str=='DevOpsToken':
+                return
+            else:
+                raise IncorrectToken
+    else:
+        raise MissingToken
 
 #Consulta de la Salud del servicio
 @blacklist_blueprint.route('/blacklist/ping', methods =['GET'])
@@ -17,6 +34,7 @@ def service_health():
 
 @blacklist_blueprint.route('/blacklist', methods =['POST'])
 def bannedEmail_create():
+    validate_token()
     data = request.json
 
     if all (fields in data for fields in ("email","app_uuid")):
@@ -52,6 +70,7 @@ def bannedEmail_create():
 #Revisar este endpoint /blacklists/<string:email>
 @blacklist_blueprint.route('/blacklist/<email>', methods =['GET'])
 def checkbannedEmail(email):
+    validate_token()
     banned_email=BannedEmail.query.filter_by(email=str(email)).first()
     if banned_email is None:
         return jsonify(EmailinBacklist='FALSE', blocked_reason='N/A'), 201

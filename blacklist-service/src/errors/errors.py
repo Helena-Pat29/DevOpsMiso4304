@@ -17,3 +17,15 @@ class InvalidId(ApiError):
 class EmailAlreadyExists(ApiError):
     code= 400
     description= "Email already exists"
+
+class TokenError(ApiError):
+    code = 401
+    description = 'El token no es válido o está vencido.'
+
+class MissingToken(ApiError):
+    code = 403
+    description = 'No hay token en la solicitud'
+
+class IncorrectToken(ApiError):
+    code = 403
+    description = 'Incorrect Token'
