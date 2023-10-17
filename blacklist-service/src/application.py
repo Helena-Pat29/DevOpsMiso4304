@@ -10,24 +10,30 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from .models.model import db
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:postgres@localhost/blacklist_db'
+application = Flask(__name__)
+application.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:postgres@localhost/blacklist_db'
 #app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", f"postgresql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}@{os.environ['DB_HOST']}/{os.environ['DB_NAME']}")
 #app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:postgres@0.0.0.0:5432/users'
 #app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///test.db'
 
 #Incluir BluePrint Utilizados
-app.register_blueprint(blacklist_blueprint)
+application.register_blueprint(blacklist_blueprint)
 
-app_context = app.app_context()
+app_context = application.app_context()
 app_context.push()
 
-db.init_app(app)
+db.init_app(application)
 db.create_all()
 
+if __name__ == "__main__":
+    # Setting debug to True enables debug output. This line should be
+    # removed before deploying a production app.
+    #application.debug = True
+    application.run()
 
-@app.errorhandler(ApiError)
+    
+@application.errorhandler(ApiError)
 def handle_exception(err):
     response = {
       "msg": err.description,
