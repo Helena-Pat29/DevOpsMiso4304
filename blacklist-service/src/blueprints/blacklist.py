@@ -68,7 +68,7 @@ def bannedEmail_create():
         raise InvalidMissingData
 
 #Revisar este endpoint /blacklists/<string:email>
-@blacklist_blueprint.route('/blacklist/<email>', methods =['GET'])
+@blacklist_blueprint.route('/blacklist/<string:email>', methods =['GET'])
 def checkbannedEmail(email):
     validate_token()
     banned_email=BannedEmail.query.filter_by(email=str(email)).first()
