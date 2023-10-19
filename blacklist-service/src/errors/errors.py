@@ -29,3 +29,7 @@ class MissingToken(ApiError):
 class IncorrectToken(ApiError):
     code = 403
     description = 'Incorrect Token'
+
+class DataDeleted(ApiError):
+    code = 200
+    description = 'The DB data has been deleted'

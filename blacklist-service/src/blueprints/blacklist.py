@@ -7,6 +7,7 @@ from ..errors.errors import TokenError
 from ..errors.errors import MissingToken
 from ..errors.errors import IncorrectToken
 from ..commands.bannedemail_create import BannedEmailCreate
+from ..commands.db_restore import db_restore
 from datetime import datetime
 
 import socket
@@ -67,7 +68,6 @@ def bannedEmail_create():
     else:
         raise InvalidMissingData
 
-#Revisar este endpoint /blacklists/<string:email>
 @blacklist_blueprint.route('/blacklist/<string:email>', methods =['GET'])
 def checkbannedEmail(email):
     validate_token()
@@ -76,3 +76,12 @@ def checkbannedEmail(email):
         return jsonify(EmailinBacklist='FALSE', blocked_reason='N/A'), 201
     
     return jsonify(EmailinBacklist='TRUE', blocked_reason=str(banned_email.blocked_reason)),201
+
+
+#Restablecer base de datos  
+@blacklist_blueprint.route('/blacklist/reset', methods =['POST'])
+
+#Mover funcion a commands/db_restore
+def clear_data():
+    db_restore.execute()
+    return jsonify({'msg':"OK"},200)
