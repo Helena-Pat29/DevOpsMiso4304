@@ -1,12 +1,12 @@
 from flask import Flask, jsonify, request, Blueprint, g
 import os
 import requests
-from ..models.model import db, BannedEmail
-from ..errors.errors import InvalidMissingData
-from ..errors.errors import TokenError
-from ..errors.errors import MissingToken
-from ..errors.errors import IncorrectToken
-from ..commands.bannedemail_create import BannedEmailCreate
+from models.model import db, BannedEmail
+from errors.errors import InvalidMissingData
+from errors.errors import TokenError
+from errors.errors import MissingToken
+from errors.errors import IncorrectToken
+from commands.bannedemail_create import BannedEmailCreate
 from datetime import datetime
 
 import socket

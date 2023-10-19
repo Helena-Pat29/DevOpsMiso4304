@@ -1,8 +1,5 @@
-# Proyecto DevOps - 202315
+## Documentación servicio Lista Negra
+Información relacionada con el microservicio de lista negra de correos electrónicos.
 
-## Integrantes
-
-- Helena Patarroyo
-- Sebastián Arango
-- Sergio Riveros
-- Carlos Tovar
+## Tecnologías y versiones
+- Python v. 3.10

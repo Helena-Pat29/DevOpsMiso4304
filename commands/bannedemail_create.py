@@ -1,11 +1,11 @@
 from .base_command import BaseCommannd
 #Pendiente configurar los errores
-from ..errors.errors import InvalidMissingData
-from ..errors.errors import EmailInvalidFormat
-from ..errors.errors import InvalidId
-from ..errors.errors import EmailAlreadyExists
-from ..models.model import BannedEmail
-from ..models.model import db
+from errors.errors import InvalidMissingData
+from errors.errors import EmailInvalidFormat
+from errors.errors import InvalidId
+from errors.errors import EmailAlreadyExists
+from models.model import BannedEmail
+from models.model import db
 #from ..commands.token_generation import create_token
 import datetime
 import uuid
