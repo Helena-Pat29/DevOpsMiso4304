@@ -2,10 +2,7 @@ from flask import Flask, jsonify, request, Blueprint, g
 import os
 import requests
 from models.model import db, BannedEmail
-from errors.errors import InvalidMissingData
-from errors.errors import TokenError
-from errors.errors import MissingToken
-from errors.errors import IncorrectToken
+from errors.errors import *
 from commands.bannedemail_create import BannedEmailCreate
 from datetime import datetime
 
@@ -76,3 +73,12 @@ def checkbannedEmail(email):
         return jsonify(EmailinBacklist='FALSE', blocked_reason='N/A'), 201
     
     return jsonify(EmailinBacklist='TRUE', blocked_reason=str(banned_email.blocked_reason)),201
+
+
+@blacklist_blueprint.route('/blacklist/reset', methods=['POST'])
+def reset():
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        db.session.execute(table.delete())
+    db.session.commit()
+    raise DataDeleted
